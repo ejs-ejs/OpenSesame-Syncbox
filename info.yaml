@@ -1,0 +1,30 @@
+description: Synchronizes the paradigma with the trigger pulse from MRI scanner
+version: 0.1
+
+
+controls:
+-
+  label: Device name
+  var: dev
+  type: line_edit
+  tooltip: Expecting a valid device name. Leave empty for autodetect.
+-
+  label: Baudrate
+  var: baudrate
+  type: line_edit
+  tooltip: Port's baudrate. Use 57600 for NNL SyncBox.
+
+  label: Expected character from the syncbox
+  var: syncboxResponse
+  type: line_edit
+  tooltip: Expecting a character. Use 's' for NNL SyncBox
+-
+  label: Timeout
+  var: timeout
+  type: line_edit
+  tooltip: Expecting a value in milliseconds or 'infinite'
+  validator: timeout
+-
+  label: |
+    <small><b>Note:</b> If there are multiple syncbox items in the experiment, the first syncbox item determines the device name</small>
+  type: text
