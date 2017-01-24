@@ -118,7 +118,8 @@ class syncbox(base_response_item):
 
 	#	self._keyboard.flush()
 		self.experiment.syncbox.start()
-		base_response_item.run(self)
+		self.experiment.syncbox.waitsync(self.syncboxResponse, self._timeout)
+		#base_response_item.run(self)
 		self.experiment.syncbox.stop()
 
 	def close(self):

@@ -228,11 +228,56 @@ class libsyncbox(object):
 
 		while inputchar != self._syncboxResponse:
 			inputchar = self._syncbox.read(1).decode('UTF-8')
+			self.experiment.responses.add(response=inputchar, response_time=self.experiment.time())
 		#	print("[{}]: expected <{}>, got <{}>".format(self.experiment.time(), self._syncboxResponse, inputchar))
 
 		t1 = self.experiment.time()
+		
 	#	print("[{}]: \t got <{}>".format(t1, inputchar))
 		return inputchar, t1
+		
+	def waitsync(self, SbResponse, timeout=None):
+		#	def get_button_press(self, allowed_buttons=None, timeout=None,
+		#		require_state_change=False):
+
+		"""
+		desc: |
+			Waits for sync trigger, comming on the serial port from the MRI scanner or hardware trigger box.
+
+		keywords:
+			SbResponse:
+				desc:	An expected symbol from the sync box.
+				type:	[char, byte]
+			timeout:
+				desc:	A timeout value in milliseconds or `None` for no
+						timeout.
+				type:	[int, float, NoneType]
+
+		returns:
+			desc:	A respone char, timestamp tuple.
+			type:	tuple
+		"""
+
+		self._syncboxResponse = SbResponse
+
+		if not self._started:
+			raise osexception(
+				u'Please call syncbox.start() before syncbox.get_button_press()')
+
+		inputbyte0 = None
+		inputchar = b''
+
+		while inputchar != self._syncboxResponse:
+			inputchar = self._syncbox.read(1).decode('UTF-8')
+			if len(inputchar) > 0:
+				self.experiment.responses.add(response=inputchar, response_time=self.experiment.time())
+				#print("[{}]: expected <{}>, got <{}>".format(self.experiment.time(), self._syncboxResponse, inputchar))
+
+	#	print("[{}]: \t got <{}>".format(t1, inputchar))
+		#return inputchar, t1
+		return 1
+		
+	
 
 
 	def close(self):
